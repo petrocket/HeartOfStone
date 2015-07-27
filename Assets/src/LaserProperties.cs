@@ -5,6 +5,7 @@ public class LaserProperties : MonoBehaviour {
 	public float fireTime = -1.0f;
 	public float speed = 100.0f;
 	public float life = 2.0f;
+	public float damageAmount = 1000.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -24,15 +25,12 @@ public class LaserProperties : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag != "Player") {
-			//Debug.Log ("Laser collision " + other.tag);
-			DamageTaker damageTaker = other.GetComponent<DamageTaker> ();
-			//Debug.Log ("Hit " + hit[closestIndex].collider.GetType());
-			if (damageTaker != null) {
-				//Debug.Log ("Taking Damage");
-				damageTaker.TakeDamage (1000.0f);
-				gameObject.SetActive (false);
-			}
+		DamageTaker damageTaker = other.GetComponent<DamageTaker> ();
+		//Debug.Log ("Hit " + hit[closestIndex].collider.GetType());
+		if (damageTaker != null) {
+			//Debug.Log ("Taking Damage");
+			damageTaker.TakeDamage (damageAmount);
+			gameObject.SetActive (false);
 		}
 	}
 }

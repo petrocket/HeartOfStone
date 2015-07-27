@@ -45,7 +45,9 @@ public class ShapeFactory : MonoBehaviour {
 
 	private void ResetShapes(uint shapeIndex, uint numShapes) {
 		for (uint i = 0; i < numShapes; ++i) {
-			shapes[shapeIndex][i].GetComponent<DamageTaker> ().Reset();
+			if (shapes[shapeIndex][i] != null && shapes[shapeIndex][i].GetComponent<DamageTaker> () != null) {
+				shapes[shapeIndex][i].GetComponent<DamageTaker> ().Reset();
+			}
 		}
 	}
 

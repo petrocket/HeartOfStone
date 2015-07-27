@@ -4,6 +4,10 @@ using System.Collections;
 public class LaserGun : MonoBehaviour {
 	public GameObject Laser;
 	public float fireRate = 0.5f;
+	public float laserSpeed = 80.0f;
+	public Color laserStartColor = Color.red;
+	public Color laserEndColor = new Color(0.5f,0.0f,0.0f);
+	public float laserDamageAmount = 1000.0f;
 
 	private GameObject[] lasers;
 	private int maxLasers = 10;
@@ -17,6 +21,8 @@ public class LaserGun : MonoBehaviour {
 		for (int i = 0; i < maxLasers; ++i) {
 			lasers[i] = (GameObject)Instantiate(Laser,Vector3.zero,Quaternion.identity);
 			lasers[i].SetActive(false);
+			lasers[i].GetComponent<LaserProperties>().damageAmount = laserDamageAmount;
+
 		}
 	}
 	
@@ -31,9 +37,11 @@ public class LaserGun : MonoBehaviour {
 			nextFireTime = Time.time + fireRate;
 			GameObject laser = GetLaser();
 			if (laser != null) {
-				laser.transform.position = transform.position + transform.forward * 2.0f;
+				laser.transform.position = transform.position + transform.forward * 4.0f;
 				laser.transform.rotation = transform.rotation;
 				laser.GetComponent<LaserProperties>().fireTime = Time.time;
+				laser.GetComponent<LaserProperties>().speed = laserSpeed;
+				laser.GetComponent<LineRenderer>().SetColors(laserStartColor, laserEndColor);
 				laser.SetActive(true);
 			}
 			else {
@@ -57,6 +65,7 @@ public class LaserGun : MonoBehaviour {
 			else if(props.fireTime < laser.GetComponent<LaserProperties>().fireTime) {
 				laser = lasers[i];
 			}
+
 		}
 
 		return laser;

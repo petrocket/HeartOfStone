@@ -57,6 +57,18 @@ public class SplineController : MonoBehaviour
 			FollowSpline();
 	}
 
+	public void Stop()
+	{
+		if (mSplineInterp != null) {
+			mSplineInterp.Stop ();
+		}
+	}
+
+	public void Restart()
+	{
+		FollowSpline ();
+	}
+
 	void SetupSplineInterpolator(SplineInterpolator interp, Transform[] trans)
 	{
 		interp.Reset();
@@ -119,7 +131,7 @@ public class SplineController : MonoBehaviour
 	{
 		if (SplineRoot != null)
 		{
-			SplineRoot.SetActiveRecursively(false);
+			SplineRoot.SetActive(false);
 		}
 	}
 

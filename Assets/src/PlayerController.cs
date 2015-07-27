@@ -62,6 +62,11 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButton("Fire1") && damageTaker.health > 0.0f) {
 			laserGun.Fire();
 		}
+
+		if (damageTaker.health <= 0.0f && !gameRules.paused) {
+			Debug.Log ("Ending game");
+			gameRules.OnGameOver();
+		}
 	}
 	/*
 	void RenderLaser()	{
@@ -79,10 +84,9 @@ public class PlayerController : MonoBehaviour {
 	*/
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag != "Player" && other.tag != "Laser") {
-			//Debug.Log ("Collided");
+		//if (other.tag != "Player" && other.tag != "Laser") {
+			Debug.Log ("Collided");
 			if (damageTaker.health > 0.0f) {
-
 				DamageTaker otherDamageTaker = other.GetComponent<DamageTaker>();
 				if(otherDamageTaker && otherDamageTaker.health > 0.0f) {
 					otherDamageTaker.TakeDamage (1000.0f);
@@ -93,10 +97,9 @@ public class PlayerController : MonoBehaviour {
 					if (damageTaker.health <= 0.0f) {
 						gameRules.OnGameOver();
 					}
-
 				}
 			}
-		}
+		//}
 
 	}
 	/*

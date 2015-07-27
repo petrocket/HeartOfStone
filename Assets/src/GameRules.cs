@@ -8,6 +8,7 @@ public class GameRules : MonoBehaviour {
 	public GameObject ring = null;
 	public GameObject shape1 = null;
 	public GameObject ship;
+	public GameObject trackController = null;
 
 	public Canvas gameOverCanvas;
 	public Canvas introCanvas;
@@ -56,9 +57,11 @@ public class GameRules : MonoBehaviour {
 			rings[i] = newRing;
 		}
 
-		Time.timeScale = 0;
+		if (track != null) {
+			trackController.GetComponent<SplineController>().Stop ();
+		}
 
-		OnPlay ();
+		Time.timeScale = 0;
 	}
 	
 	// Update is called once per frame
@@ -84,12 +87,19 @@ public class GameRules : MonoBehaviour {
 		trackOrigin.transform.rotation = Quaternion.identity;
 		track.transform.rotation = Quaternion.identity;
 
+		if (trackController != null) {
+			trackController.GetComponent<SplineController>().Stop ();
+		}
 	}
 
 	public void OnGameOver() {
 		GetComponent<BlurOptimized>().enabled = true;
 		gameOverCanvas.enabled = true;
 		Cursor.visible = true;
+		paused = true;
+		if (trackController != null) {
+			trackController.GetComponent<SplineController>().Stop ();
+		}
 	}
 
 	public void OnPlay() {
@@ -103,6 +113,10 @@ public class GameRules : MonoBehaviour {
 		GetComponent<BlurOptimized>().enabled = false;
 		gameOverCanvas.enabled = false;
 		introCanvas.enabled = false;
+
+		if (trackController != null) {
+			trackController.GetComponent<SplineController>().Restart ();
+		}
 	}
 
 	public void OnQuit() {
